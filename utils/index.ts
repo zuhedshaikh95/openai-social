@@ -1,2 +1,2 @@
 export { default as CustomException } from './CustomException';
-export { default as randomPrompt } from './randomPrompt';
+export { default as randomSurprisePrompt } from './randomSurprisePrompt';
