@@ -2,6 +2,7 @@ import { UseFormRegister, FieldValues, FieldErrors } from "react-hook-form";
 
 interface Props {
   id: string;
+  value?: string;
   label: string;
   type?: string;
   disabled?: boolean;
@@ -44,7 +45,7 @@ const Input: React.FC<Props> = ({
       </div>
 
       <input
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block w-full p-3"
+        className={`bg-gray-50 border ${errors[id] ? 'border-red-500' : 'border-gray-300'} text-gray-900 text-sm rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block w-full p-3 disabled:cursor-not-allowed disabled:opacity-40`}
         id={id}
         type={type}
         placeholder={placeholder}
