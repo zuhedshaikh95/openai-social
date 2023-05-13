@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { FormField, Header, Input, Loader } from "@/components";
-import { randomPrompt } from "@/utils";
+import { Header, Input, Loader } from "@/components";
+import { randomSurprisePrompt } from "@/utils";
 import { preview } from "@/public/assets";
 import Head from "next/head";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
@@ -14,6 +14,7 @@ const create = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<FieldValues>({
@@ -26,9 +27,17 @@ const create = () => {
 
   const onSubimt: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
+    reset();
   };
 
-  const handleSurpriseMe = () => {};
+  const handleSurpriseMe = () => {
+    const randomPrompt = randomSurprisePrompt(watch("prompt"));
+    setValue("prompt", randomPrompt);
+  };
+
+  const generateImage = () => {
+
+  };
 
   return (
     <>
@@ -75,7 +84,7 @@ const create = () => {
               handleSurpriseMe={handleSurpriseMe}
             />
 
-            <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 w-80 p-3 h-80 flex justify-center items-center">
+            <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 max-w-xl p-3 h-80 flex justify-center items-center">
               {watch("photo") ? (
                 <img
                   src={watch("photo")}
@@ -86,7 +95,7 @@ const create = () => {
                 <img
                   src={preview.src}
                   alt="preview"
-                  className="w-9/12 h-9/12 object-contain opacity-40"
+                  className="w-2/5 h-2/5 object-contain opacity-40"
                 />
               )}
 
@@ -95,6 +104,26 @@ const create = () => {
                   <Loader />
                 </div>
               )}
+            </div>
+
+            <div className="mt-5 flex gap-5">
+              <button
+                className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                type="button"
+                onClick={generateImage}
+              >
+                {imgLoading ? "Generating..." : "Generate"}
+              </button>
+            </div>
+
+            <div className="mt-10">
+              <p className="mt-2 text-[#666e75] text-sm">
+                Once you have created the image you want, you can share it with
+                others in the community
+                <button className="block mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center" type="submit" onClick={handleSubmit(onSubimt)}>
+                  {loading ? "Sharing..." : "Share with the community"}
+                </button>
+              </p>
             </div>
           </form>
         </section>
