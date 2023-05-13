@@ -1,5 +1,4 @@
-import { Card, EmptyState, FormField, Header, Loader } from "@/components";
-import { randomPrompt } from "@/utils";
+import { Card, EmptyState, Header, Loader } from "@/components";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -29,7 +28,6 @@ export default function Home() {
           </div>
 
           <div className="mt-10">
-            <FormField />
           </div>
 
           <div className="mt-10">

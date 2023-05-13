@@ -5,10 +5,16 @@ import { randomSurprisePrompt } from "@/utils";
 import { preview } from "@/public/assets";
 import Head from "next/head";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { generatePhoto } from "@/redux/features/generatorSlice";
 
 const create = () => {
   const router = useRouter();
-  const [imgLoading, setImgLoading] = useState<false>(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { photo, generatorLoading } = useSelector(
+    (store: RootState) => store.generatorReducer
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
@@ -25,9 +31,8 @@ const create = () => {
     },
   });
 
-  const onSubimt: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    reset();
+  const onSubimt: SubmitHandler<FieldValues> = (form) => {
+    dispatch(generatePhoto(form));
   };
 
   const handleSurpriseMe = () => {
@@ -35,9 +40,7 @@ const create = () => {
     setValue("prompt", randomPrompt);
   };
 
-  const generateImage = () => {
-
-  };
+  const generateImage = () => {};
 
   return (
     <>
@@ -84,12 +87,12 @@ const create = () => {
               handleSurpriseMe={handleSurpriseMe}
             />
 
-            <div className="relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 max-w-xl p-3 h-80 flex justify-center items-center">
-              {watch("photo") ? (
+            <div className={`relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 w-80 p-3 h-80 flex justify-center items-center ${generatorLoading ? 'opacity-40' : 'opacity-100'}`}>
+              {photo ? (
                 <img
-                  src={watch("photo")}
-                  alt={watch("prompt")}
-                  className="w-full h-full object-contain"
+                  src={`data:image/jpeg;base64,${photo}`}
+                  alt='prompt-photo'
+                  className="object-contain"
                 />
               ) : (
                 <img
@@ -99,7 +102,7 @@ const create = () => {
                 />
               )}
 
-              {imgLoading && (
+              {generatorLoading && (
                 <div className="absolute inset-0 z-0 flex justify-center items-center opacity-50 rounded-lg">
                   <Loader />
                 </div>
@@ -108,11 +111,12 @@ const create = () => {
 
             <div className="mt-5 flex gap-5">
               <button
-                className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                className={`text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:cursor-not-allowed ${generatorLoading ? 'opacity-40' : 'opacity-100'}`}
                 type="button"
-                onClick={generateImage}
+                disabled={generatorLoading}
+                onClick={handleSubmit(onSubimt)}
               >
-                {imgLoading ? "Generating..." : "Generate"}
+                {generatorLoading ? "Generating..." : "Generate"}
               </button>
             </div>
 
@@ -120,7 +124,11 @@ const create = () => {
               <p className="mt-2 text-[#666e75] text-sm">
                 Once you have created the image you want, you can share it with
                 others in the community
-                <button className="block mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center" type="submit" onClick={handleSubmit(onSubimt)}>
+                <button
+                  className="block mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                  type="submit"
+                  onClick={() => {}}
+                >
                   {loading ? "Sharing..." : "Share with the community"}
                 </button>
               </p>
