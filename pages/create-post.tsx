@@ -1,9 +1,8 @@
-import { useState } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Header, Input, Loader } from "@/components";
 import { randomSurprisePrompt } from "@/utils";
 import { preview } from "@/public/assets";
-import Head from "next/head";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -15,7 +14,6 @@ const create = () => {
   const { photo, generatorLoading } = useSelector(
     (store: RootState) => store.generatorReducer
   );
-  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -39,8 +37,6 @@ const create = () => {
     const randomPrompt = randomSurprisePrompt(watch("prompt"));
     setValue("prompt", randomPrompt);
   };
-
-  const generateImage = () => {};
 
   return (
     <>
@@ -67,7 +63,7 @@ const create = () => {
               id="name"
               label="Name"
               type="text"
-              disabled={loading}
+              disabled={generatorLoading}
               register={register}
               placeholder="John Doe"
               errors={errors}
@@ -78,7 +74,7 @@ const create = () => {
               id="prompt"
               label="Prompt"
               type="text"
-              disabled={loading}
+              disabled={generatorLoading}
               register={register}
               placeholder="A plush toy robot sitting against a yellow wall"
               errors={errors}
@@ -129,7 +125,7 @@ const create = () => {
                   type="submit"
                   onClick={() => {}}
                 >
-                  {loading ? "Sharing..." : "Share with the community"}
+                  {generatorLoading ? "Sharing..." : "Share with the community"}
                 </button>
               </p>
             </div>
