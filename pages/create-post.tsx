@@ -7,18 +7,19 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { generatePhoto } from "@/redux/features/generatorSlice";
+import { createPost } from "@/redux/features/postSlice";
 
 const create = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { photo, generatorLoading } = useSelector(
-    (store: RootState) => store.generatorReducer
-  );
+  const { photo, generatorLoading } = useSelector((store: RootState) => store.generatorReducer);
+  const { postsLoading } = useSelector((store: RootState) => store.postReducer);
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    getValues,
     reset,
     formState: { errors },
   } = useForm<FieldValues>({
@@ -29,14 +30,22 @@ const create = () => {
     },
   });
 
-  const onSubimt: SubmitHandler<FieldValues> = (form) => {
-    dispatch(generatePhoto(form));
+  const onSubimt: SubmitHandler<FieldValues> = (data) => {
+    dispatch(generatePhoto(data));
   };
-
+  
   const handleSurpriseMe = () => {
     const randomPrompt = randomSurprisePrompt(watch("prompt"));
     setValue("prompt", randomPrompt);
   };
+  
+  const handleShare = () => {
+    if(!photo) return;
+
+    setValue('photo', photo);
+    const form = getValues();
+    dispatch(createPost(form));
+  }
 
   return (
     <>
@@ -83,12 +92,12 @@ const create = () => {
               handleSurpriseMe={handleSurpriseMe}
             />
 
-            <div className={`relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 w-80 p-3 h-80 flex justify-center items-center ${generatorLoading ? 'opacity-40' : 'opacity-100'}`}>
+            <div className={`relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 w-80 p-3 h-80 flex justify-center items-center`}>
               {photo ? (
                 <img
-                  src={`data:image/jpeg;base64,${photo}`}
+                  src={photo}
                   alt='prompt-photo'
-                  className="object-contain"
+                  className={`object-contain ${generatorLoading ? 'opacity-40' : 'opacity-100'}`}
                 />
               ) : (
                 <img
@@ -122,10 +131,10 @@ const create = () => {
                 others in the community
                 <button
                   className="block mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                  type="submit"
-                  onClick={() => {}}
+                  type="button"
+                  onClick={handleShare}
                 >
-                  {generatorLoading ? "Sharing..." : "Share with the community"}
+                  {postsLoading ? 'Sharing...' : 'Share with the community'}
                 </button>
               </p>
             </div>

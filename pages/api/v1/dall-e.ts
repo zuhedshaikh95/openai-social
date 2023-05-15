@@ -1,10 +1,10 @@
-import { createPost } from "@/controllers/dall-e.controller";
+import { generateImage } from "@/controllers/dall-e.controller";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   switch (request.method) {
     case "POST":
-      return createPost(request, response);
+      return generateImage(request, response);
       
 
     default:
