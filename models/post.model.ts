@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IPost } from "@/typings";
 
 const postSchema = new mongoose.Schema({
     name: {
@@ -15,4 +16,4 @@ const postSchema = new mongoose.Schema({
     }
 }, { versionKey: false, timestamps: true });
 
-export default mongoose.models.Post || mongoose.model("Post", postSchema);
+export default mongoose.models.Post || mongoose.model<IPost>("Post", postSchema);
