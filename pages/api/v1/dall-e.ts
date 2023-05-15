@@ -1,5 +1,5 @@
-import { generateImage } from "@/controllers/dall-e.controller";
 import { NextApiRequest, NextApiResponse } from "next";
+import { generateImage } from "@/controllers/dall-e.controller";
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   switch (request.method) {

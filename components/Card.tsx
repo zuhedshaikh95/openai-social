@@ -1,4 +1,3 @@
-import React from 'react';
 import { download } from '@/public/assets';
 import { downloadImage } from '@/utils';
 import { Avatar } from '.';

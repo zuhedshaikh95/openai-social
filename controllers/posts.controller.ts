@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { cloudinary } from "@/configs";
 import { Post } from "@/models";
-import axios from "axios";
 
 export async function getAllPosts(request: NextApiRequest, response: NextApiResponse) {
     try {

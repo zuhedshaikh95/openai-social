@@ -1,12 +1,5 @@
-import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Configuration, OpenAIApi } from "openai";
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY as string,
-});
-
-const openai = new OpenAIApi(configuration);
+import { openai } from "@/configs";
 
 export const generateImage = async (request: NextApiRequest, response: NextApiResponse) => {
     const { prompt } = request.body;

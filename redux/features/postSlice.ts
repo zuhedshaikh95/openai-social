@@ -1,8 +1,8 @@
+import axios from 'axios';
+import toast from "react-hot-toast";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IPost } from "@/typings";
-import axios from 'axios';
 import { FieldValues } from "react-hook-form";
-import toast from "react-hot-toast";
 import { NextRouter } from "next/router";
 import { resetGenertaorState } from "./generatorSlice";
 
