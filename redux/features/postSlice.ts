@@ -3,6 +3,8 @@ import { IPost } from "@/typings";
 import axios from 'axios';
 import { FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
+import { NextRouter } from "next/router";
+import { resetGenertaorState } from "./generatorSlice";
 
 interface PostState {
     posts: IPost[];
@@ -27,7 +29,7 @@ const postSlice = createSlice({
             state.postsError = false;
             state.postsLoading = false;
             state.postsMessage = '';
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -56,9 +58,12 @@ const postSlice = createSlice({
     }
 });
 
-export const getPosts = createAsyncThunk('posts/getPosts', async (_, thunkAPI) => {
+export const getPosts = createAsyncThunk('posts/getPosts', async (value: string, thunkAPI) => {
     try {
         const { data } = await axios.get('/api/v1/posts');
+        if(value) {
+            return data.posts.filter((post: IPost) => post.prompt.toLowerCase().includes(value.toLowerCase()));
+        }
         return data.posts.reverse();
     }
     catch({ message }: any) {
@@ -69,10 +74,14 @@ export const getPosts = createAsyncThunk('posts/getPosts', async (_, thunkAPI) =
     }
 });
 
-export const createPost = createAsyncThunk('posts/createPost', async (post: FieldValues, thunkAPI) => {
+export const createPost = createAsyncThunk('posts/createPost', async ({ form, router }: { form: FieldValues, router: NextRouter }, thunkAPI) => {
     try {
-        await axios.post('/api/v1/posts', post);
+        await axios.post('/api/v1/posts', form);
         toast.success('Post Created!');
+        setTimeout(() => {
+            router.push('/');
+            thunkAPI.dispatch(resetGenertaorState());
+        }, 1000);
     }
     catch({ message }: any) {
         toast.error(message);

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { FieldValues } from 'react-hook-form';
 
 interface GeneratorState {
-    base64: string;
     photo: string;
     generatorError: boolean;
     generatorMessage: string;
@@ -11,7 +10,6 @@ interface GeneratorState {
 }
 
 const initialState: GeneratorState = {
-    base64: '',
     photo: '',
     generatorError: false,
     generatorMessage: '',
@@ -28,6 +26,9 @@ const generatorSlice = createSlice({
          },
          setGneratorLoading: (state) => {
             state.generatorLoading = true;
+         },
+         resetGenertaorState: (state) => {
+            return initialState;
          }
     },
     extraReducers: (builder) => {
@@ -47,7 +48,6 @@ const generatorSlice = createSlice({
 export const generatePhoto = createAsyncThunk("generator/generatePhoto", async (form: FieldValues, thunkAPI) => {
     try {
         const { data } = await axios.post('/api/v1/dall-e', form);
-        console.log(data.photo)
         return data.photo;
     }
     catch({ message }: any) {
@@ -59,6 +59,6 @@ export const generatePhoto = createAsyncThunk("generator/generatePhoto", async (
     }
 });
 
-export const { setGneratorIdle, setGneratorLoading } = generatorSlice.actions;
+export const { setGneratorIdle, setGneratorLoading, resetGenertaorState } = generatorSlice.actions;
 
 export default generatorSlice.reducer;
