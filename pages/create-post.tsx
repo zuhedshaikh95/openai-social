@@ -95,7 +95,7 @@ const create = () => {
             />
 
             <div
-              className={`relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 w-80 p-3 h-80 flex justify-center items-center`}
+              className={`relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:boredr-blue-500 w-80 h-80 sm:w-[400px] sm:h-[400px] p-3 flex justify-center items-center`}
             >
               {photo ? (
                 <img
