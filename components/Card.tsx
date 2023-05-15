@@ -1,7 +1,7 @@
 import React from 'react';
 import { download } from '@/public/assets';
 import { downloadImage } from '@/utils';
-import Avatar from './Avatar';
+import { Avatar } from '.';
 
 interface Props {
   _id: string;
@@ -13,13 +13,13 @@ interface Props {
 const Card: React.FC<Props> = ({ _id, name, photo, prompt }) => {
   return (
     <div className='relative rounded-xl group shadow-card hover:shadow-cardhover card'>
-      <img
-        src={photo}
-        alt={prompt}
-        className='w-full h-auto object-cover rounded-xl'
-      />
+        <img
+          src={photo}
+          alt={prompt}
+          className='w-full h-full object-cover rounded-xl'
+        />
       <div className='group-hover:flex flex-col max-h-[94.5%] hidden absolute inset-0 top-auto bg-[#10131f] m-2 p-4 rounded-md'>
-        <p className='text-white text-sm sm:text-base overflow-y-auto'>{prompt}</p>
+        <p className='text-white text-sm overflow-y-auto scrollbar-hide'>{prompt}</p>
 
         <div className='mt-5 flex justify-between items-center'>
           <Avatar name={name} />
