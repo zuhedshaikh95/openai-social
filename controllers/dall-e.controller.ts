@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, OpenAIApi } from "openai";
 
@@ -7,7 +8,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-export const createPost = async (request: NextApiRequest, response: NextApiResponse) => {
+export const generateImage = async (request: NextApiRequest, response: NextApiResponse) => {
     const { prompt } = request.body;
 
     try {
@@ -17,8 +18,8 @@ export const createPost = async (request: NextApiRequest, response: NextApiRespo
             size: '1024x1024',
             response_format: 'b64_json'
         });
-        const image = aiResponse.data.data[0].b64_json;
 
+        const image = aiResponse.data.data[0].b64_json;
         return response.status(201).send({ photo: image })
     }
     catch({message, status = 500}: any) {
