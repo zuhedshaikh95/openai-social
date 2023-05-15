@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { generatorReducer } from './features';
-import { type } from "os";
+import { generatorReducer, postReducer } from './features';
 
 const store = configureStore({
     reducer: {
-        generatorReducer
+        generatorReducer,
+        postReducer
     }
 });
 

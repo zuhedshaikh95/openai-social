@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FieldValues } from 'react-hook-form';
 
 interface GeneratorState {
+    base64: string;
     photo: string;
     generatorError: boolean;
     generatorMessage: string;
@@ -10,6 +11,7 @@ interface GeneratorState {
 }
 
 const initialState: GeneratorState = {
+    base64: '',
     photo: '',
     generatorError: false,
     generatorMessage: '',
@@ -31,21 +33,21 @@ const generatorSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(generatePhoto.pending, (state) => {
             state.generatorLoading = true;
-            state.generatorMessage = '';
         })
-        .addCase(generatePhoto.fulfilled, (state, action: PayloadAction<string>) => {
-            state.photo = action.payload;
+        .addCase(generatePhoto.fulfilled, (state, action) => {
+            state.photo = 'data:image/png;base64,' + action.payload;
         })
-        .addCase(generatePhoto.rejected, (state, action) => {
+        .addCase(generatePhoto.rejected, (state) => {
             state.generatorLoading = false;
         })
     }
 });
 
 
-export const generatePhoto = createAsyncThunk("cart/getCartItems", async (form: FieldValues, thunkAPI) => {
+export const generatePhoto = createAsyncThunk("generator/generatePhoto", async (form: FieldValues, thunkAPI) => {
     try {
         const { data } = await axios.post('/api/v1/dall-e', form);
+        console.log(data.photo)
         return data.photo;
     }
     catch({ message }: any) {
