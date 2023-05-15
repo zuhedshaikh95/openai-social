@@ -4,7 +4,7 @@ import { getPosts } from "@/redux/features/postSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useDebounce from "@/hooks/useDebounce";
+import { useDebounce } from "@/hooks";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
