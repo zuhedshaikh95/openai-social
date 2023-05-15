@@ -4,15 +4,17 @@ import { getPosts } from "@/redux/features/postSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const { posts, postsLoading } = useSelector((store: RootState) => store.postReducer);
-  const [searchText, setSearchText] = useState<string>('');
+  const [searchText, setSearchText] = useState<string>("");
+  const debouncedText = useDebounce(searchText);
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, []);
+    dispatch(getPosts(debouncedText));
+  }, [debouncedText]);
 
   return (
     <>
@@ -35,6 +37,12 @@ export default function Home() {
           </div>
 
           <div className="mt-10">
+            <input
+              className="w-full p-3 bg-gray-50 border er-gray-300 rounded-lg outline-none focus:border-[#4649ff]"
+              type="search"
+              placeholder="Found what you're looking for? Try here!"
+              onChange={(event) => setSearchText(event.target.value)}
+            />
           </div>
 
           <div className="mt-10">
@@ -51,7 +59,7 @@ export default function Home() {
                   </h2>
                 )}
 
-                {searchText || posts.length ? (
+                {posts.length ? (
                   <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                     {posts.map((post: any) => (
                       <Card key={post._id} {...post} />
