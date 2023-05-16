@@ -23,7 +23,7 @@ const Card: React.FC<Props> = ({ _id, name, photo, prompt }) => {
         <div className='mt-5 flex justify-between items-center'>
           <Avatar name={name} />
 
-          <button className='outline-none bg-transparent border-none' onClick={() => downloadImage(_id, photo)}>
+          <button className='outline-none bg-transparent border-none' onClick={() => downloadImage(`${Date.now()}`, photo)}>
             <img src={download.src} alt="download" className='h-7 w-7 object-contain invert' />
           </button>
         </div>
