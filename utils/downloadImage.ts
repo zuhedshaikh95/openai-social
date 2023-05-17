@@ -1,6 +1,6 @@
 import FileSaver from 'file-saver';
 
-const downloadImage = async (_id: string, photo: string) => {
+const downloadImage = (_id: string, photo: string) => {
     FileSaver.saveAs(photo, `social-ai-${_id}.jpg`);
 }
 
