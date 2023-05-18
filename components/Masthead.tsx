@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const Masthead = () => {
@@ -13,19 +14,15 @@ const Masthead = () => {
         </p>
 
         <Link href='/create-post'>
-          <button className="mt-2 px-4 py-2 bg-black/30 hover:bg-black/90 rounded-md">
-            Get started
+          <button className="mt-2 px-4 py-2 bg-black/50 hover:bg-black/90 rounded-md">
+            Share your thoughts
           </button>
         </Link>
       </div>
 
-      <video
-        className="absolute top-0 left-0 w-full h-full object-cover rounded-xl"
-        loop
-        autoPlay
-      >
-        <source src="/assets/hero-banner-video.mp4" type="video/mp4" />
-      </video>
+        <video loop autoPlay className="absolute inset-0 w-full h-full object-cover rounded-xl">
+          <source src="/assets/hero-banner.mp4" />
+        </video>
     </div>
   );
 };
