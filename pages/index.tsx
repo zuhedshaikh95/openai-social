@@ -28,7 +28,7 @@ export default function Home() {
         <section className="w-full max-w-7xl mx-auto">
           <Masthead />
 
-          <div className="mt-10">
+          <div className="mt-16">
             <input
               className="w-full p-3 bg-gray-50 border er-gray-300 rounded-lg outline-none focus:border-[#4649ff]"
               type="search"
